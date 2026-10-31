@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+.env/
+*.egg-info/
+
+# Secrets — NEVER commit API keys
+.env
+.env.local
+
+
+# Local runtime data — regenerated on each machine, not source code
+data/vector_store/
+data/question_sets.db
+data/uploads/
+questions_output.json
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+.devcontainer/
+
+

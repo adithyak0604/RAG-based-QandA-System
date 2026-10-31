@@ -1,0 +1,8 @@
+pdfplumber
+python-docx
+python-pptx
+sentence-transformers
+chromadb
+openai
+streamlit
+python-dotenv
