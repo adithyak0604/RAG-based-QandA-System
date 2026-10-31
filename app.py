@@ -58,31 +58,15 @@ def show_reference(q: dict, key_suffix: str):
         else:
             st.caption("Source text not found (it may have been re-ingested since this question was generated).")
 
+# The LLM backend is no longer user-selectable. In production every call
+# goes through the server-side OpenRouter key (set in Streamlit secrets),
+# since Ollama isn't reachable from a deployed server. Locally, the
+# backend follows the LLM_BACKEND env var ("auto" by default; set it to
+# "ollama" or "openrouter" in .env to force one).
+if settings.env == "production":
+    settings.llm_backend_override = "openrouter"
+
 with st.sidebar:
-    st.subheader("Settings")
-
-    if settings.env == "production":
-        # Ollama runs on a local machine and isn't reachable from a
-        # deployed server — don't offer a choice that would just crash.
-        settings.llm_backend_override = "openrouter"
-        st.caption("LLM backend: `openrouter` (fixed in production)")
-    else:
-        with st.expander("🧠 LLM Choice", expanded=False):
-            backend_choice = st.radio(
-                "Choose LLM backend",
-                options=["Auto (recommended)", "Ollama (local, free, slower)", "OpenRouter (API, faster, costs money)"],
-                index=0,
-            )
-            if backend_choice.startswith("Auto"):
-                settings.llm_backend_override = "auto"
-            elif backend_choice.startswith("Ollama"):
-                settings.llm_backend_override = "ollama"
-            else:
-                settings.llm_backend_override = "openrouter"
-
-            st.caption(f"Current: `{settings.llm_backend_override}`")
-
-    st.divider()
     page = st.selectbox("📂 Navigate", ["Quiz App", "History"])
 
 
